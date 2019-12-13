@@ -12,7 +12,7 @@ if os.path.exists(old_dir) is not True:
 
 os.makedirs(new_dir, exist_ok=True)
 
-box_size = (280, 50, 500, 100)
+box_size = (220, 50, 500, 100)
 
 for old_img in os.listdir(old_dir):
     old_name = os.path.join(old_dir, old_img)
@@ -20,6 +20,8 @@ for old_img in os.listdir(old_dir):
         img = Image.open(old_name)
         img_crop = img.crop(box_size)
         text = pytesseract.image_to_string(img_crop).strip()
+        reg = re.compile('\d{10}')
+        text = reg.search(text).group()
         new_img = text + '.png'
 
         new_name = os.path.join(new_dir, new_img)
