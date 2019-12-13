@@ -15,7 +15,7 @@ if os.path.exists(old_dir) is not True:
 os.makedirs(new_dir, exist_ok=True)
 os.makedirs(tmp_dir, exist_ok=True)
 
-box_size = (220, 50, 500, 100)
+box_size = (200, 50, 550, 100)
 
 for old_img in os.listdir(old_dir):
     old_name = os.path.join(old_dir, old_img)
