@@ -3,14 +3,17 @@
 import shutil, os, re
 from PIL import Image
 import pytesseract
+import send2trash
 
 old_dir = 'img_old'
 new_dir = 'img_new'
+tmp_dir = 'img_tmp'
 
 if os.path.exists(old_dir) is not True:
     print('The "img_old" dir does not exist, please check.')
 
 os.makedirs(new_dir, exist_ok=True)
+os.makedirs(tmp_dir, exist_ok=True)
 
 box_size = (220, 50, 500, 100)
 
@@ -18,11 +21,11 @@ for old_img in os.listdir(old_dir):
     old_name = os.path.join(old_dir, old_img)
     try:
         img = Image.open(old_name)
-        print(img.size)
+        # print(img.size)
         img = img.resize((1500,800))
-        print(img.size)
+        # print(img.size)
         img_crop = img.crop(box_size)
-        img_crop.save(old_img.split('.')[0] + 'tmp.png')
+        img_crop.save(os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png'))
         text = pytesseract.image_to_string(img_crop).strip()
         reg = re.compile('\d{10}')
         text = reg.search(text).group()
@@ -43,6 +46,7 @@ for old_img in os.listdir(old_dir):
     else:
         pass
 
+send2trash.send2trash(tmp_dir)
 
 # fapiao = Image.open('img/fapiao.jpg')
 
