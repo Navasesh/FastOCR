@@ -8,5 +8,13 @@ tmp/
 build
 htmlcov
 
+dist/
+*.spec
+*.exe
+
 *.jpg
 *.png
+
+img_old/
+img_tmp/
+img_new/
