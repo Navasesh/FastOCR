@@ -17,32 +17,41 @@ os.makedirs(tmp_dir, exist_ok=True)
 
 box_size = (200, 50, 550, 100)
 
+# images = os.listdir(old_dir)
+# reg = re.compile('\w+\.(jpg|png)')
+# images = reg.search(images).group()
+
+reg_name = re.compile('(.+?)\.(jpg|png)')
+reg_code = re.compile('\d{10}')
+
 for old_img in os.listdir(old_dir):
-    old_name = os.path.join(old_dir, old_img)
-    try:
-        img = Image.open(old_name)
-        # print(img.size)
-        img_resize = img.resize((1500, 800))
-        # print(img_resize.size)
-        img_crop = img_resize.crop(box_size)
-        img_crop.save(os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png'))
-        text = pytesseract.image_to_string(img_crop).strip()
-        reg = re.compile('\d{10}')
-        text = reg.search(text).group()
-        new_img = text + '.png'
+    if reg_name.search(old_img) is not None:
+        old_name = os.path.join(old_dir, old_img)
+        try:
+            img = Image.open(old_name)
+            # print(img.size)
+            img_resize = img.resize((1500, 800))
+            # print(img_resize.size)
+            img_crop = img_resize.crop(box_size)
+            img_crop.save(os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png'))
+            text = pytesseract.image_to_string(img_crop).strip()
+            text = reg_code.search(text).group()
+            new_img = text + '.png'
 
-        new_name = os.path.join(new_dir, new_img)
+            new_name = os.path.join(new_dir, new_img)
 
-        print('----------' +
-              'Renaming "%s" to "%s"...' % (old_name, new_name) +
-              '----------')
+            print('----------' +
+                  'Renaming "%s" to "%s"...' % (old_name, new_name) +
+                  '----------')
 
-        # shutil.move(old_name, new_name)
-        shutil.copy(old_name, new_name)
-    except IOError:
-        print('The filetype of "%s" is not image.' % old_name)
-    except AttributeError:
-        print('The image "%s" has not been correctly cropped.' % old_name)
+            # shutil.move(old_name, new_name)
+            shutil.copy(old_name, new_name)
+        except IOError:
+            print('The filetype of "%s" is not image.' % old_name)
+        except AttributeError:
+            print('The image "%s" has not been correctly cropped.' % old_name)
+        else:
+            pass
     else:
         pass
 
