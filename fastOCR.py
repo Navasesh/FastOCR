@@ -18,7 +18,11 @@ for old_img in os.listdir(old_dir):
     old_name = os.path.join(old_dir, old_img)
     try:
         img = Image.open(old_name)
+        print(img.size)
+        img = img.resize((1500,800))
+        print(img.size)
         img_crop = img.crop(box_size)
+        img_crop.save(old_img.split('.')[0] + 'tmp.png')
         text = pytesseract.image_to_string(img_crop).strip()
         reg = re.compile('\d{10}')
         text = reg.search(text).group()
@@ -34,6 +38,8 @@ for old_img in os.listdir(old_dir):
         shutil.copy(old_name, new_name)
     except IOError:
         print('The filetype of "%s" is not image.' % old_name)
+    except AttributeError:
+        print('The image "%s" has not been correctly cropped.' % old_name)
     else:
         pass
 
