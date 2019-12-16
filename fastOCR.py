@@ -19,7 +19,8 @@ os.makedirs(tmp_dir, exist_ok=True)
 # A4 (1383, 979)
 # box_size = (200, 50, 550, 100)
 # left, top, right, bottom = (200, 50, 550, 100)
-left, top, right, bottom = (830, 490, 1300, 650)
+# left, top, right, bottom = (830, 490, 1300, 650)
+left, top, right, bottom = (850, 530, 1300, 600)
 
 # images = os.listdir(old_dir)
 # reg = re.compile('\w+\.(jpg|png)')
@@ -39,7 +40,8 @@ for old_img in os.listdir(old_dir):
                 # img = pdf.convert('jpeg')
                 img = pdf.convert('png')
                 img.crop(left, top, right, bottom)
-                img.save(filename=os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png'))
+                tmp_name = os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png')
+                img.save(filename=tmp_name)
 
 
             # print(img.size)
@@ -47,7 +49,7 @@ for old_img in os.listdir(old_dir):
             # print(img_resize.size)
             # img_crop = img_resize.crop(box_size)
 
-            img_crop = Image.open(os.path.join(tmp_dir, old_img.split('.')[0] + '_tmp.png'))
+            img_crop = Image.open(tmp_name)
             text = pytesseract.image_to_string(img_crop).strip()
             text = reg_code.search(text).group()
             new_img = text + '.png'
@@ -62,7 +64,8 @@ for old_img in os.listdir(old_dir):
             shutil.copy(old_name, new_name)
         except IOError:
             print('The filetype of "%s" is not image.' % old_name)
-        # except AttributeError:
+        except AttributeError:
+            print('The code of "%s" has not been recognized properly.' % old_name)
             # print('The image "%s" has not been correctly cropped.' % old_name)
         else:
             pass
