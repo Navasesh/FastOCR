@@ -52,7 +52,7 @@ for old_img in os.listdir(old_dir):
             img_crop = Image.open(tmp_name)
             text = pytesseract.image_to_string(img_crop).strip()
             text = reg_code.search(text).group()
-            new_img = text + '.png'
+            new_img = text + '.pdf'
 
             new_name = os.path.join(new_dir, new_img)
 
