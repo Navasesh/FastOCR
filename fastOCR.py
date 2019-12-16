@@ -21,8 +21,9 @@ box_size = (200, 50, 550, 100)
 # reg = re.compile('\w+\.(jpg|png)')
 # images = reg.search(images).group()
 
-reg_name = re.compile('(.+?)\.(jpg|png)')
-reg_code = re.compile('\d{10}')
+reg_name = re.compile('(.+?)\.(pdf|jpg|png)')
+# reg_code = re.compile('\d{10}')
+reg_code = re.compile('\w{17}')
 
 for old_img in os.listdir(old_dir):
     if reg_name.search(old_img) is not None:
