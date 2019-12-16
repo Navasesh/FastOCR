@@ -20,6 +20,8 @@ FastOCR is a program to ocr images of vin numbers and rename the pdfs.
 + Like code completion, syntax checking or available snippets
 + Include links to packages & external things where possible
 
+  https://blog.csdn.net/wwj_748/article/details/78135879
+ 
 ** Module Flags
 This module provides no flags.
 
@@ -32,6 +34,7 @@ This module provides no flags.
 * Prerequisites
 This module has no prereqisites.
 #+BEGIN_SRC shell
+brew install freetype imagemagick
 conda install -c conda-forge wand
 #+END_SRC
 
